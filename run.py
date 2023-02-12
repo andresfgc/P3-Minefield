@@ -19,6 +19,7 @@ boardVisible = [[-1,-1,-1,-1,-1],  #-1=unkown
                 [-1,-1,-1,-1,-1],
                 [-1,-1,-1,-1,-1]]
 
+
 #add mines
 numMines = 7
 num = 0 #num mines
@@ -52,16 +53,29 @@ def displayBoardVisible():
         print("")
         print("-"*21)
 
+def checkMinesAround(row, col):
+    totalMines = 0 #total mines around location
+    r= row -1
+    while r <= row+1:
+        if r >=0 and r <5:
+            c= col -1
+            while c <= col+1:
+                if c >=0 and c <5:
+                    totalMines=totalMines+board[r][c]
+                c=c+1
+        r=r+1
+    return totalMines
+
 displayBoard()
 displayBoardVisible()
 
 movement=0
 while movement < (25 - numMines):
-    row= int(input("Select a row(1-5): "))
-    col= int(input("Select a col(1-5): "))
+    row= int(input("Select a row(1-5): ")) - 1
+    col= int(input("Select a col(1-5): ")) - 1
     if board[row][col] == 1:
         print("Ooops!!! You stepped on a mine.")
         displayBoard()
     else:
         boardVisible[row][col] = checkMinesAround(row, col)
-        displayBoard()
+        displayBoardVisible()
