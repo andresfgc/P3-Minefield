@@ -1,4 +1,20 @@
 import random
+import gspread
+
+
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive.file",
+    "https://www.googleapis.com/auth/drive"
+    ]
+
+CREDS = Credentials.from_service_account_file('creds.json')
+SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+SHEET = GSPREAD_CLIENT.open('minefield')
+
+ranking = SHEET.worksheet('ranking')
+ranking_scores = ranking.get_all_values()
 
 """
 Create a board for mines and for the player
@@ -88,25 +104,73 @@ def updateMinesAround(row, col):
                 r=r+1
     return totalOpened
 
-displayBoard()
-displayBoardVisible()
+#Adds user data to ranking
+def update_ranking(player):
+    for count, score in enumerate(ranking_scores[1:11], 2):
+        if player.score > int(score[2]):
+            player_as_list = [player.name, player.place, player.score]
+            ranking.append_row(player_as_list)
+            ranking.sort((3, 'des'), range='A2:C999')
+            ranking.delete_rows(12)
+            break
+        
 
-score=0
-movement=0
-while movement < (25 - numMines):
-    row= int(input("Select a row(1-5): ")) - 1
-    col= int(input("Select a col(1-5): ")) - 1
-    if board[row][col] == 1:
-        print("Ooops!!! You stepped on a mine.")
-        print("Score: " +str(score)+" Points") #Display final score
-        displayBoard()
-        break
+#print current leaderboard
+def displayRanking():
+    clear_screen()
+    print(f"TOP 10 RANKING")
+    col_len = {i:max(map(len, inner))
+        for i, inner in enumerate(zip(ranking_scores))}
+
+        for inner in ranking_scores:
+            for col, word in enumerate(inner):
+                print(f"{word:{col_len[col]}}", end= " | ")
+            print()
+        print()
+        input("Press enter to return to main menu\n")
+        clear_screen()
+
+
+#Player class used to creater player object containing name and score
+class Player:
+    def __init__(self, name, score):
+        self.name = name
+        self.score = 0
+
+#Ask player for name
+def playerDetails():
+    player_name = input("What is your name?\n").upper()
+    if player_name.isalpha():
+        player = Player(name=player_name, score=0)
+        return player
     else:
-        movement= movement+updateMinesAround(row, col)
-        displayBoardVisible()
-        score = score + 100 #It will add 100 Points for each correct movement
-        print("Score: " +str(score)+" Points")
-if movement > (24 - numMines):
-    print("You have won!")
-else:
-    print("You have lost, Game Over!")
+        clear_screen()
+        print(f"{player_name} is not valid")
+
+
+def main():
+    displayBoard()
+    displayBoardVisible()
+    player = 
+    score=0
+    movement=0
+    while movement < (25 - numMines):
+        row= int(input("Select a row(1-5): ")) - 1
+        col= int(input("Select a col(1-5): ")) - 1
+        if board[row][col] == 1:
+            print("Ooops!!! You stepped on a mine.")
+            print("Score: " +str(score)+" Points") #Display final score
+            displayBoard()
+            break
+        else:
+            movement= movement+updateMinesAround(row, col)
+            displayBoardVisible()
+            score = score + 100 #It will add 100 Points for each correct movement
+            print("Score: " +str(score)+" Points")
+    if movement > (24 - numMines):
+        print("You have won!")
+    else:
+        print("You have lost, Game Over!")
+
+if __name__ == '__main__':
+    main()
