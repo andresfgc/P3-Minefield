@@ -71,7 +71,7 @@ def checkMinesAround(row, col):
 #In case of zeros, it will check the next spaces until it finds at least one mine
 def updateMinesAround(row, col):
     totalOpened= 0
-    if boardVisible[row][col] == -1: #nto yet opened
+    if boardVisible[row][col] == -1: #not yet opened
         numMines= checkMinesAround(row, col)
         boardVisible[row][col]=numMines
         totalOpened= totalOpened+1
@@ -88,17 +88,25 @@ def updateMinesAround(row, col):
                 r=r+1
     return totalOpened
 
-
 displayBoard()
 displayBoardVisible()
 
+score=0
 movement=0
 while movement < (25 - numMines):
     row= int(input("Select a row(1-5): ")) - 1
     col= int(input("Select a col(1-5): ")) - 1
     if board[row][col] == 1:
         print("Ooops!!! You stepped on a mine.")
+        print("Score: " +str(score)+" Points") #Display final score
         displayBoard()
+        break
     else:
         movement= movement+updateMinesAround(row, col)
         displayBoardVisible()
+        score = score + 100 #It will add 100 Points for each correct movement
+        print("Score: " +str(score)+" Points")
+if movement > (24 - numMines):
+    print("You have won!")
+else:
+    print("You have lost, Game Over!")
