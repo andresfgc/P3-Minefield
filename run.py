@@ -1,5 +1,6 @@
 import random
 import gspread
+from google.oauth2.service_account import Credentials
 
 
 SCOPE = [
@@ -103,7 +104,7 @@ def updateMinesAround(row, col):
                         c=c+1
                 r=r+1
     return totalOpened
-
+"""
 #Adds user data to ranking
 def update_ranking(player):
     for count, score in enumerate(ranking_scores[1:11], 2):
@@ -146,12 +147,12 @@ def playerDetails():
     else:
         clear_screen()
         print(f"{player_name} is not valid")
-
+"""
 
 def main():
     displayBoard()
     displayBoardVisible()
-    player = 
+    print(ranking_scores)
     score=0
     movement=0
     while movement < (25 - numMines):
