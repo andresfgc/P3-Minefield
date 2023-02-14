@@ -13,10 +13,19 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('minefield')
-
+"""
 ranking = SHEET.worksheet('ranking')
 ranking_scores = ranking.get_all_values()
+"""
 
+def get_name_data():
+    """
+    Get name input from the player
+    """
+    data_str = input("Please enter your name here: ")
+    print(f"Thanks {data_str}, let's play!")
+
+get_name_data()
 """
 Create a board for mines and for the player
 """
@@ -173,5 +182,7 @@ def main():
     else:
         print("You have lost, Game Over!")
 
+"""
 if __name__ == '__main__':
     main()
+"""
