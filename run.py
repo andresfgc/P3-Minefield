@@ -24,8 +24,29 @@ def get_name_data():
     """
     data_str = input("Please enter your name here: ")
     print(f"Thanks {data_str}, let's play!")
+    return data_str
 
-get_name_data()
+def get_ranking_data(name, score):
+    """
+    Collect name and sccore data
+    """
+    print("Collecting name and score data...\n")
+    ranking_data_str = name+","+str(score)
+    ranking_data = ranking_data_str.split(",")
+    print(ranking_data)
+    print("Ranking data collected successfully.\n")
+    return ranking_data
+
+
+def update_ranking_worksheet(name, score):
+    """
+    Update score worksheet, add a new row with the name and score
+    """
+    print("Updating Ranking...\n")
+    ranking_worksheet = SHEET.worksheet("ranking")
+    ranking_worksheet.append_row(get_ranking_data(name, score))
+    print("Ranking worksheet updated successfully.\n")
+
 """
 Create a board for mines and for the player
 """
@@ -113,55 +134,11 @@ def updateMinesAround(row, col):
                         c=c+1
                 r=r+1
     return totalOpened
-"""
-#Adds user data to ranking
-def update_ranking(player):
-    for count, score in enumerate(ranking_scores[1:11], 2):
-        if player.score > int(score[2]):
-            player_as_list = [player.name, player.place, player.score]
-            ranking.append_row(player_as_list)
-            ranking.sort((3, 'des'), range='A2:C999')
-            ranking.delete_rows(12)
-            break
-        
-
-#print current leaderboard
-def displayRanking():
-    clear_screen()
-    print(f"TOP 10 RANKING")
-    col_len = {i:max(map(len, inner))
-        for i, inner in enumerate(zip(ranking_scores))}
-
-        for inner in ranking_scores:
-            for col, word in enumerate(inner):
-                print(f"{word:{col_len[col]}}", end= " | ")
-            print()
-        print()
-        input("Press enter to return to main menu\n")
-        clear_screen()
-
-
-#Player class used to creater player object containing name and score
-class Player:
-    def __init__(self, name, score):
-        self.name = name
-        self.score = 0
-
-#Ask player for name
-def playerDetails():
-    player_name = input("What is your name?\n").upper()
-    if player_name.isalpha():
-        player = Player(name=player_name, score=0)
-        return player
-    else:
-        clear_screen()
-        print(f"{player_name} is not valid")
-"""
 
 def main():
+    name = get_name_data()
     displayBoard()
     displayBoardVisible()
-    print(ranking_scores)
     score=0
     movement=0
     while movement < (25 - numMines):
@@ -182,7 +159,9 @@ def main():
     else:
         print("You have lost, Game Over!")
 
-"""
+    #get_ranking_data(name, score)
+    update_ranking_worksheet(name, score)
+    print("Thanks for playing :)")
+
 if __name__ == '__main__':
     main()
-"""
