@@ -1,4 +1,5 @@
 import random
+import os
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -13,10 +14,15 @@ CREDS = Credentials.from_service_account_file('creds.json')
 SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('minefield')
-"""
-ranking = SHEET.worksheet('ranking')
-ranking_scores = ranking.get_all_values()
-"""
+
+ranking_worksheet = SHEET.worksheet("ranking")
+ranking_scores = ranking_worksheet.get_all_values()
+
+def clear_screen():
+    """
+    Clear function to clean-up the terminal so things don't get messy.
+    """
+    os.system("cls" if os.name == "nt" else "clear")
 
 def get_name_data():
     """
@@ -30,22 +36,58 @@ def get_ranking_data(name, score):
     """
     Collect name and sccore data
     """
-    print("Collecting name and score data...\n")
+    #print("Collecting name and score data...\n")
     ranking_data_str = name+","+str(score)
     ranking_data = ranking_data_str.split(",")
-    print(ranking_data)
-    print("Ranking data collected successfully.\n")
+    #print(ranking_data)
+    #print("Ranking data collected successfully.\n")
     return ranking_data
 
 
 def update_ranking_worksheet(name, score):
     """
-    Update score worksheet, add a new row with the name and score
+    Update ranking worksheet with name and score
     """
-    print("Updating Ranking...\n")
-    ranking_worksheet = SHEET.worksheet("ranking")
+    #print("Updating Ranking...\n")
     ranking_worksheet.append_row(get_ranking_data(name, score))
-    print("Ranking worksheet updated successfully.\n")
+    #print("Ranking worksheet updated successfully.\n")
+
+def displayRanking():
+    """
+    Print current Ranking
+    """
+    print(f"TOP 10 RANKING")
+    col_len = {i: max(map(len, inner))
+                for i, inner in enumerate(zip(*ranking_scores))}
+
+    for inner in ranking_scores:
+        for col, word in enumerate(inner):
+            print(f"{word:{col_len[col]}}", end=" | ")
+        print()
+    print()
+    #input("Press enter to return to main menu\n")
+    #clear_screen()
+
+def menu(get_name_data):
+    """
+    Menu to begin game, play game, check ranking, quit game
+    """
+    while True:
+        print(f"What would you like to do {get_name_data}?")
+        print("Press 1 to play game")
+        print("Press 2 to check ranking")
+        print("Press 3 to quit game")
+        number = input()
+        if number == "1":
+            break
+        elif number == "2":
+            displayRanking()
+        elif number == "3":
+            print(f"Goodbye {get_name_data}!")
+            quit()
+        else:
+            clear_screen()
+            print(f"{number} is not valid.")
 
 """
 Create a board for mines and for the player
@@ -136,7 +178,9 @@ def updateMinesAround(row, col):
     return totalOpened
 
 def main():
+    clear_screen()
     name = get_name_data()
+    menu(name)
     displayBoard()
     displayBoardVisible()
     score=0
@@ -159,9 +203,11 @@ def main():
     else:
         print("You have lost, Game Over!")
 
-    #get_ranking_data(name, score)
     update_ranking_worksheet(name, score)
+    #displayRanking()
     print("Thanks for playing :)")
 
-if __name__ == '__main__':
-    main()
+
+print("Welcome to Minefield")
+main()
+#displayRanking()
