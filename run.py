@@ -36,11 +36,8 @@ def get_ranking_data(name, score):
     """
     Collect name and sccore data
     """
-    #print("Collecting name and score data...\n")
     ranking_data_str = name+","+str(score)
     ranking_data = ranking_data_str.split(",")
-    #print(ranking_data)
-    #print("Ranking data collected successfully.\n")
     return ranking_data
 
 
@@ -48,9 +45,7 @@ def update_ranking_worksheet(name, score):
     """
     Update ranking worksheet with name and score
     """
-    #print("Updating Ranking...\n")
     ranking_worksheet.append_row(get_ranking_data(name, score))
-    #print("Ranking worksheet updated successfully.\n")
 
 def displayRanking():
     """
@@ -204,10 +199,8 @@ def main():
         print("You have lost, Game Over!")
 
     update_ranking_worksheet(name, score)
-    #displayRanking()
     print("Thanks for playing :)")
 
 
 print("Welcome to Minefield")
 main()
-#displayRanking()
