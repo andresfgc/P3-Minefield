@@ -35,21 +35,6 @@ def get_name_data():
         else:
             print(f"{data_str} is not a name.")
 
-def get_ranking_data(name, score):
-    """
-    Collect name and sccore data
-    """
-    ranking_data_str = name+","+str(score)
-    ranking_data = ranking_data_str.split(",")
-    return ranking_data
-
-
-def update_ranking_worksheet(name, score):
-    """
-    Update ranking worksheet with name and score
-    """
-    ranking_worksheet.append_row(get_ranking_data(name, score))
-
 def displayRanking():
     """
     Print current Ranking
@@ -184,17 +169,9 @@ def updateMinesAround(rowValue, colValue):
                 r=r+1
     return totalOpened
 
-def main():
-    clear_screen()
-    print("Welcome to Minefield.\n")
-    print("Explore all spaces without exploding any mine inside this field.")
-    print("There are seven mines, so be careful where you step on.\n")
-    name = get_name_data()
-    menu(name)
-    displayBoardVisible()
-    displayBoard()
-    score=0
-    movement=0
+def game():
+    score = 0
+    movement = 0
     while movement < (25 - numMines):
         row = input("Select a row(1-5): ")
         if row == "1" or row == "2" or row == "3" or row == "4" or row == "5":
@@ -218,12 +195,36 @@ def main():
             print(f"{row} is not valid!")
     if movement > (24 - numMines):
         print("You have won!")
+        return score
     else:
         print("You have lost, Game Over!")
+        return score
+
+def get_ranking_data(name, score):
+    """
+    Collect name and sccore data
+    """
+    ranking_data_str = name+","+str(score)
+    ranking_data = ranking_data_str.split(",")
+    return ranking_data
+
+def update_ranking_worksheet(name, score):
+    """
+    Update ranking worksheet with name and score
+    """
+    ranking_worksheet.append_row(get_ranking_data(name, score))
+
+def main():
+    clear_screen()
+    print("Welcome to Minefield.\n")
+    print("Explore all spaces without exploding any mine inside this field.")
+    print("There are seven mines, so be careful where you step on.\n")
+    name = get_name_data()
+    menu(name)
+    displayBoardVisible()
+    score = game()
     update_ranking_worksheet(name, score)
-    print("Thanks for playing :)")
+    #menu(name)
+    #print("Thanks for playing :)")
 
 main()
-
-#a = c
-#print(type(a))
