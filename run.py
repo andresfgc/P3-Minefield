@@ -28,8 +28,12 @@ def get_name_data():
     """
     Get name input from the player
     """
-    data_str = input("Please enter your name here: ")
-    return data_str
+    while True:
+        data_str = input("Please enter your name here: ")
+        if data_str.isalpha():
+            return data_str
+        else:
+            print(f"{data_str} is not a name.")
 
 def get_ranking_data(name, score):
     """
@@ -161,19 +165,19 @@ def checkMinesAround(row, col):
     return totalMines
 
 #In case of zeros, it will check the next spaces until it finds at least one mine
-def updateMinesAround(row, col):
+def updateMinesAround(rowValue, colValue):
     totalOpened= 0
-    if boardVisible[row][col] == -1: #not yet opened
-        numMines= checkMinesAround(row, col)
-        boardVisible[row][col]=numMines
+    if boardVisible[rowValue][colValue] == -1: #not yet opened
+        numMines= checkMinesAround(rowValue, colValue)
+        boardVisible[rowValue][colValue]=numMines
         totalOpened= totalOpened+1
         #if was 0, it´s safe to reveal
         if numMines == 0:
-            r=row - 1
-            while r <= row+1:
+            r=rowValue - 1
+            while r <= rowValue+1:
                 if r >=0 and r <5:
-                    c= col -1
-                    while c <= col+1:
+                    c= colValue -1
+                    while c <= colValue+1:
                         if c >=0 and c <5:
                             totalOpened= totalOpened+updateMinesAround(r, c)
                         c=c+1
@@ -187,29 +191,31 @@ def main():
     print("There are seven mines, so be careful where you step on.\n")
     name = get_name_data()
     menu(name)
-    displayBoard()
     displayBoardVisible()
+    displayBoard()
     score=0
     movement=0
     while movement < (25 - numMines):
-        row= int(input("Select a row(1-5): ")) - 1
-        if -1<row<5:
-            col= int(input("Select a col(1-5): ")) - 1
-            if -1<col<5:
-                if board[row][col] == 1:
+        row = input("Select a row(1-5): ")
+        if row == "1" or row == "2" or row == "3" or row == "4" or row == "5":
+            rowValue = int(row) - 1
+            col = input("Select a col(1-5): ")
+            if col == "1" or col == "2" or col == "3" or col == "4" or col == "5":
+                colValue = int(col) - 1
+                if board[rowValue][colValue] == 1:
                     print("Ooops!!! You stepped on a mine.")
                     print("Score: " +str(score)+" Points") #Display final score
                     displayBoard()
                     break
                 else:
-                    movement= movement+updateMinesAround(row, col)
+                    movement= movement+updateMinesAround(rowValue, colValue)
                     displayBoardVisible()
                     score = score + 100 #It will add 100 Points for each correct movement
                     print("Score: " +str(score)+" Points")
             else:
-                print(f"{col + 1} is not valid!")
+                print(f"{col} is not valid!")
         else:
-            print(f"{row + 1} is not valid!")
+            print(f"{row} is not valid!")
     if movement > (24 - numMines):
         print("You have won!")
     else:
