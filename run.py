@@ -193,9 +193,9 @@ def main():
     movement=0
     while movement < (25 - numMines):
         row= int(input("Select a row(1-5): ")) - 1
-        if row =="1" or row == "2" or row == "3" or row == "4" or row == "5":
+        if -1<row<5:
             col= int(input("Select a col(1-5): ")) - 1
-            if row =="1" or row == "2" or row == "3" or row == "4" or row == "5":
+            if -1<col<5:
                 if board[row][col] == 1:
                     print("Ooops!!! You stepped on a mine.")
                     print("Score: " +str(score)+" Points") #Display final score
