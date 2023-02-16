@@ -49,8 +49,6 @@ def displayRanking():
             print(f"{word:{col_len[col]}}", end=" | ")
         print()
     print()
-    #input("Press enter to return to main menu\n")
-    #clear_screen()
 
 def menu(get_name_data):
     """
@@ -103,19 +101,22 @@ while num < numMines:
         board[row][col]= 1 #add mine
         num = num+1
 
-"""
-Essential for adding the mines correctly.
-Also necessary to find the exact number of mines around a spot.
-It will be displayed when player steps on a mine.
-"""
+
 def displayBoard():
+    """
+    Essential for adding the mines correctly.
+    Also necessary to find the exact number of mines around a spot.
+    It will be displayed when player steps on a mine.
+    """
     for row in range(0,5):
         for col in range(0,5):
             print(board[row][col], end=" ")
         print("")
 
-#Will show the board to Player without revealing mines´s locations
 def displayBoardVisible():
+    """
+    Will show the board to Player without revealing mines´s locations
+    """
     clear_screen()
     print("""
 RULES:
@@ -135,8 +136,10 @@ For every correct movement you will get 100 points.
         print("")
         print("-"*21)
 
-#Display the number of mines around the coordinates given
 def checkMinesAround(row, col):
+    """
+    Display the number of mines around the coordinates given 
+    """
     totalMines = 0 #total mines around location
     r= row -1
     while r <= row+1:
@@ -149,8 +152,11 @@ def checkMinesAround(row, col):
         r=r+1
     return totalMines
 
-#In case of zeros, it will check the next spaces until it finds at least one mine
 def updateMinesAround(rowValue, colValue):
+    """
+    In case of zeros, it will check the next 
+    spaces until it finds at least one mine
+    """
     totalOpened= 0
     if boardVisible[rowValue][colValue] == -1: #not yet opened
         numMines= checkMinesAround(rowValue, colValue)
@@ -170,6 +176,10 @@ def updateMinesAround(rowValue, colValue):
     return totalOpened
 
 def game():
+    """
+    it receives the row and column numbers, calculate position
+    and total score
+    """
     score = 0
     movement = 0
     while movement < (25 - numMines):
