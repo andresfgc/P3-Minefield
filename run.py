@@ -29,7 +29,7 @@ def get_name_data():
     Get name input from the player
     """
     while True:
-        data_str = input("Please enter your name here: ")
+        data_str = input("Please enter your name here:\n")
         if data_str.isalpha():
             return data_str
         else:
@@ -115,7 +115,7 @@ def displayBoard():
 
 def displayBoardVisible():
     """
-    Will show the board to Player without revealing mines´s locations
+    Will show the board to Player without revealing mines's locations
     """
     clear_screen()
     print("""
@@ -178,15 +178,15 @@ def updateMinesAround(rowValue, colValue):
 def game():
     """
     it receives the row and column numbers, calculate position
-    and total score
+    and total score.
     """
     score = 0
     movement = 0
     while movement < (25 - numMines):
-        row = input("Select a row(1-5): ")
+        row = input("Select a row(1-5):\n")
         if row == "1" or row == "2" or row == "3" or row == "4" or row == "5":
             rowValue = int(row) - 1
-            col = input("Select a col(1-5): ")
+            col = input("Select a col(1-5):\n")
             if col == "1" or col == "2" or col == "3" or col == "4" or col == "5":
                 colValue = int(col) - 1
                 if board[rowValue][colValue] == 1:
