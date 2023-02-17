@@ -108,10 +108,16 @@ def displayBoard():
     Also necessary to find the exact number of mines around a spot.
     It will be displayed when player steps on a mine.
     """
+    print("-"*21)
     for row in range(0,5):
+        print("| ", end="")
         for col in range(0,5):
-            print(board[row][col], end=" ")
+            if board[row][col] == 1:
+                print("*", end=" | ")
+            else:
+                print(board[row][col], end=" | ")
         print("")
+        print("-"*21)
 
 def displayBoardVisible():
     """
