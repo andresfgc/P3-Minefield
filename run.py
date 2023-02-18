@@ -4,25 +4,12 @@ import gspread
 from google.oauth2.service_account import Credentials
 
 
-SCOPE = [
-    "https://www.googleapis.com/auth/spreadsheets",
-    "https://www.googleapis.com/auth/drive.file",
-    "https://www.googleapis.com/auth/drive"
-    ]
-
-CREDS = Credentials.from_service_account_file('creds.json')
-SCOPED_CREDS = CREDS.with_scopes(SCOPE)
-GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
-SHEET = GSPREAD_CLIENT.open('minefield')
-
-ranking_worksheet = SHEET.worksheet("ranking")
-ranking_scores = ranking_worksheet.get_all_values()
-
 def clear_screen():
     """
     Clear function to clean-up the terminal so things don't get messy.
     """
     os.system("cls" if os.name == "nt" else "clear")
+
 
 def get_name_data():
     """
@@ -35,14 +22,14 @@ def get_name_data():
         else:
             print(f"{data_str} is not a name.")
 
-def displayRanking():
+
+def display_ranking():
     """
     Print current Ranking
     """
     clear_screen()
-    print(f"TOP RANKING")
-    col_len = {i: max(map(len, inner))
-                for i, inner in enumerate(zip(*ranking_scores))}
+    print("TOP RANKING")
+    col_len = {i: max(map(len, inner)) for i, inner in enumerate(zip(*ranking_scores))}
 
     for inner in ranking_scores:
         for col, word in enumerate(inner):
@@ -50,12 +37,13 @@ def displayRanking():
         print()
     print()
 
-def menu(get_name_data):
+
+def menu(user_name):
     """
     Menu to begin game, play game, check ranking, quit game
     """
     while True:
-        print(f"{get_name_data}, what would you like to do?")
+        print(f"{user_name}, what would you like to do?")
         print("Press 1 to play game")
         print("Press 2 to check ranking")
         print("Press 3 to quit game")
@@ -63,55 +51,25 @@ def menu(get_name_data):
         if number == "1":
             break
         elif number == "2":
-            displayRanking()
+            display_ranking()
         elif number == "3":
-            print(f"Goodbye {get_name_data}!")
+            print(f"Goodbye {user_name}!")
             quit()
         else:
             clear_screen()
             print(f"{number} is not valid.")
 
-"""
-Create a board for mines and for the player
-"""
 
-#Board player can not see
-board =[[0,0,0,0,0],   #0= no mine
-        [0,0,0,0,0],   #1= mine
-        [0,0,0,0,0],
-        [0,0,0,0,0],
-        [0,0,0,0,0]]
-
-
-#Board player can see
-boardVisible = [[-1,-1,-1,-1,-1],  #-1=unkown
-                [-1,-1,-1,-1,-1],
-                [-1,-1,-1,-1,-1],
-                [-1,-1,-1,-1,-1],
-                [-1,-1,-1,-1,-1]]
-
-
-#add mines
-numMines = 7
-num = 0 #num mines
-while num < numMines:
-    row=random.randint(0, 4)
-    col=random.randint(0, 4)
-    if board[row][col] == 0:
-        board[row][col]= 1 #add mine
-        num = num+1
-
-
-def displayBoard():
+def display_board():
     """
     Essential for adding the mines correctly.
     Also necessary to find the exact number of mines around a spot.
     It will be displayed when player steps on a mine.
     """
     print("-"*21)
-    for row in range(0,5):
+    for row in range(0, 5):
         print("| ", end="")
-        for col in range(0,5):
+        for col in range(0, 5):
             if board[row][col] == 1:
                 print("*", end=" | ")
             else:
@@ -119,7 +77,8 @@ def displayBoard():
         print("")
         print("-"*21)
 
-def displayBoardVisible():
+
+def display_board_visible():
     """
     Will show the board to Player without revealing mines's locations
     """
@@ -132,54 +91,57 @@ RULES:
 For every correct movement you will get 100 points.
 """)
     print("-"*21)
-    for row in range(0,5):
+    for row in range(0, 5):
         print("| ", end="")
-        for col in range(0,5):
-            if boardVisible[row][col] == -1:
-                print(" ", end= " | ")
+        for col in range(0, 5):
+            if board_visible[row][col] == - 1:
+                print(" ", end=" | ")
             else:
-                print(boardVisible[row][col], end=" | ")
+                print(board_visible[row][col], end=" | ")
         print("")
         print("-"*21)
 
-def checkMinesAround(row, col):
-    """
-    Display the number of mines around the coordinates given 
-    """
-    totalMines = 0 #total mines around location
-    r= row -1
-    while r <= row+1:
-        if r >=0 and r <5:
-            c= col -1
-            while c <= col+1:
-                if c >=0 and c <5:
-                    totalMines=totalMines+board[r][c]
-                c=c+1
-        r=r+1
-    return totalMines
 
-def updateMinesAround(rowValue, colValue):
+def check_mines_around(row, col):
     """
-    In case of zeros, it will check the next 
+    Display the number of mines around the coordinates given
+    """
+    total_mines = 0  # total mines around location
+    r = row - 1
+    while r <= row+1:
+        if r >= 0 and r < 5:
+            c = col - 1
+            while c <= col + 1:
+                if c >= 0 and c < 5:
+                    total_mines = total_mines + board[r][c]
+                c = c + 1
+        r = r + 1
+    return total_mines
+
+
+def update_mines_around(row_value, col_value):
+    """
+    In case of zeros, it will check the next
     spaces until it finds at least one mine
     """
-    totalOpened= 0
-    if boardVisible[rowValue][colValue] == -1: #not yet opened
-        numMines= checkMinesAround(rowValue, colValue)
-        boardVisible[rowValue][colValue]=numMines
-        totalOpened= totalOpened+1
-        #if was 0, it´s safe to reveal
-        if numMines == 0:
-            r=rowValue - 1
-            while r <= rowValue+1:
-                if r >=0 and r <5:
-                    c= colValue -1
-                    while c <= colValue+1:
-                        if c >=0 and c <5:
-                            totalOpened= totalOpened+updateMinesAround(r, c)
-                        c=c+1
-                r=r+1
-    return totalOpened
+    total_opened = 0
+    if board_visible[row_value][col_value] == - 1:  # not yet opened
+        num_mines = check_mines_around(row_value, col_value)
+        board_visible[row_value][col_value] = num_mines
+        total_opened = total_opened + 1
+        # if was 0, it´s safe to reveal
+        if num_mines == 0:
+            r = row_value - 1
+            while r <= row_value + 1:
+                if r >= 0 and r < 5:
+                    c = col_value - 1
+                    while c <= col_value + 1:
+                        if c >= 0 and c < 5:
+                            total_opened += update_mines_around(r, c)
+                        c = c + 1
+                r = r + 1
+    return total_opened
+
 
 def game():
     """
@@ -188,41 +150,44 @@ def game():
     """
     score = 0
     movement = 0
-    while movement < (25 - numMines):
+    while movement < (25 - num_mines):
         row = input("Select a row(1-5):\n")
         if row == "1" or row == "2" or row == "3" or row == "4" or row == "5":
-            rowValue = int(row) - 1
+            row_value = int(row) - 1
             col = input("Select a col(1-5):\n")
             if col == "1" or col == "2" or col == "3" or col == "4" or col == "5":
-                colValue = int(col) - 1
-                if board[rowValue][colValue] == 1:
+                col_value = int(col) - 1
+                if board[row_value][col_value] == 1:
                     print("Ooops!!! You stepped on a mine.")
-                    print("Score: " +str(score)+" Points") #Display final score
-                    displayBoard()
+                    print(f"Score: {score} Points")  # Display final score
+                    display_board()
                     break
                 else:
-                    movement= movement+updateMinesAround(rowValue, colValue)
-                    displayBoardVisible()
-                    score = score + 100 #It will add 100 Points for each correct movement
-                    print("Score: " +str(score)+" Points")
+                    movement += update_mines_around(row_value, col_value)
+                    display_board_visible()
+                    # It will add 100 Points for each correct movement
+                    score = score + 100
+                    print(f"Score: {score} Points")
             else:
                 print(f"{col} is not valid!")
         else:
             print(f"{row} is not valid!")
-    if movement > (24 - numMines):
+    if movement > (24 - num_mines):
         print("You have won!")
         return score
     else:
         print("You have lost, Game Over!")
         return score
 
+
 def get_ranking_data(name, score):
     """
     Collect name and sccore data
     """
-    ranking_data_str = name+","+str(score)
+    ranking_data_str = name + "," + str(score)
     ranking_data = ranking_data_str.split(",")
     return ranking_data
+
 
 def update_ranking_worksheet(name, score):
     """
@@ -230,17 +195,68 @@ def update_ranking_worksheet(name, score):
     """
     ranking_worksheet.append_row(get_ranking_data(name, score))
 
+
 def main():
+    """
+    Contains all functions
+    """
     clear_screen()
     print("Welcome to Minefield.\n")
     print("Explore all spaces without exploding any mine inside this field.")
     print("There are seven mines, so be careful where you step on.\n")
     name = get_name_data()
     menu(name)
-    displayBoardVisible()
+    display_board_visible()
     score = game()
     update_ranking_worksheet(name, score)
-    #menu(name)
-    #print("Thanks for playing :)")
 
-main()
+
+def create_board(hidden=False):
+    board = []
+    for i in range(5):
+        row = []
+        for j in range(5):
+            if hidden is True:
+                row.append(hidden_space)
+            else:
+                row.append(empty_space)
+        board.append(row)
+    return board
+
+
+if __name__ == '__main__':
+    empty_space = -1
+    mine = 1
+    hidden_space = 0
+
+    SCOPE = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive.file",
+        "https://www.googleapis.com/auth/drive"
+        ]
+
+    CREDS = Credentials.from_service_account_file('creds.json')
+    SCOPED_CREDS = CREDS.with_scopes(SCOPE)
+    GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
+    SHEET = GSPREAD_CLIENT.open('minefield')
+
+    ranking_worksheet = SHEET.worksheet("ranking")
+    ranking_scores = ranking_worksheet.get_all_values()
+    # Board player can not see
+    board = create_board(True)
+    # Board player can see
+    board_visible = create_board()
+
+    """
+    Create a board for mines and for the player
+    """
+    # Add mines
+    num_mines = 7
+    num = 0  # num mines
+    while num < num_mines:
+        row = random.randint(0, 4)
+        col = random.randint(0, 4)
+        if board[row][col] == 0:
+            board[row][col] = 1  # Add mine
+            num = num + 1
+    main()
