@@ -29,7 +29,9 @@ def display_ranking():
     """
     clear_screen()
     print("TOP RANKING")
-    col_len = {i: max(map(len, inner)) for i, inner in enumerate(zip(*ranking_scores))}
+    col_len = {
+        i: max(map(len, inner)) for i, inner in enumerate(zip(*ranking_scores))
+    }
 
     for inner in ranking_scores:
         for col, word in enumerate(inner):
@@ -50,17 +52,18 @@ def menu(user_name):
         number = input()
         if number == "1":
             break
-        elif number == "2":
+        if number == "2":
             display_ranking()
-        elif number == "3":
+            return 2
+        if number == "3":
             print(f"Goodbye {user_name}!")
-            quit()
-        else:
-            clear_screen()
-            print(f"{number} is not valid.")
+            return 3
+        clear_screen()
+        print(f"{number} is not valid.")
+    return 1
 
 
-def display_board():
+def display_board(board):
     """
     Essential for adding the mines correctly.
     Also necessary to find the exact number of mines around a spot.
@@ -78,7 +81,7 @@ def display_board():
         print("-"*21)
 
 
-def display_board_visible():
+def display_board_visible(board_visible):
     """
     Will show the board to Player without revealing mines's locations
     """
@@ -102,7 +105,7 @@ For every correct movement you will get 100 points.
         print("-"*21)
 
 
-def check_mines_around(row, col):
+def check_mines_around(row, col, board):
     """
     Display the number of mines around the coordinates given
     """
@@ -119,14 +122,14 @@ def check_mines_around(row, col):
     return total_mines
 
 
-def update_mines_around(row_value, col_value):
+def update_mines_around(row_value, col_value, board_visible, board):
     """
     In case of zeros, it will check the next
     spaces until it finds at least one mine
     """
     total_opened = 0
     if board_visible[row_value][col_value] == - 1:  # not yet opened
-        num_mines = check_mines_around(row_value, col_value)
+        num_mines = check_mines_around(row_value, col_value, board)
         board_visible[row_value][col_value] = num_mines
         total_opened = total_opened + 1
         # if was 0, it´s safe to reveal
@@ -137,13 +140,15 @@ def update_mines_around(row_value, col_value):
                     c = col_value - 1
                     while c <= col_value + 1:
                         if c >= 0 and c < 5:
-                            total_opened += update_mines_around(r, c)
+                            total_opened += update_mines_around(
+                                r, c, board_visible, board
+                                )
                         c = c + 1
                 r = r + 1
     return total_opened
 
 
-def game():
+def game(board_visible, board):
     """
     it receives the row and column numbers, calculate position
     and total score.
@@ -152,22 +157,23 @@ def game():
     movement = 0
     while movement < (25 - num_mines):
         row = input("Select a row(1-5):\n")
-        if row == "1" or row == "2" or row == "3" or row == "4" or row == "5":
+        if row in ("1", "2", "3", "4", "5"):
             row_value = int(row) - 1
             col = input("Select a col(1-5):\n")
-            if col == "1" or col == "2" or col == "3" or col == "4" or col == "5":
+            if col in ("1", "2", "3", "4", "5"):
                 col_value = int(col) - 1
                 if board[row_value][col_value] == 1:
                     print("Ooops!!! You stepped on a mine.")
                     print(f"Score: {score} Points")  # Display final score
-                    display_board()
+                    display_board(board)
                     break
-                else:
-                    movement += update_mines_around(row_value, col_value)
-                    display_board_visible()
-                    # It will add 100 Points for each correct movement
-                    score = score + 100
-                    print(f"Score: {score} Points")
+                movement += update_mines_around(
+                    row_value, col_value, board_visible, board
+                    )
+                display_board_visible(board_visible)
+                # It will add 100 Points for each correct movement
+                score = score + 100
+                print(f"Score: {score} Points")
             else:
                 print(f"{col} is not valid!")
         else:
@@ -205,10 +211,24 @@ def main():
     print("Explore all spaces without exploding any mine inside this field.")
     print("There are seven mines, so be careful where you step on.\n")
     name = get_name_data()
-    menu(name)
-    display_board_visible()
-    score = game()
-    update_ranking_worksheet(name, score)
+    play = menu(name)
+    while play == 1:
+        # Board player can not see
+        board = create_board(True)
+        # Board player can see
+        board_visible = create_board()
+        # Add mines
+        num = 0  # num mines
+        while num < num_mines:
+            row = random.randint(0, 4)
+            col = random.randint(0, 4)
+            if board[row][col] == 0:
+                board[row][col] = 1  # Add mine
+                num = num + 1
+        display_board_visible(board_visible)
+        score = game(board_visible, board)
+        update_ranking_worksheet(name, score)
+        play = menu(name)
 
 
 def create_board(hidden=False):
@@ -242,21 +262,5 @@ if __name__ == '__main__':
 
     ranking_worksheet = SHEET.worksheet("ranking")
     ranking_scores = ranking_worksheet.get_all_values()
-    # Board player can not see
-    board = create_board(True)
-    # Board player can see
-    board_visible = create_board()
-
-    """
-    Create a board for mines and for the player
-    """
-    # Add mines
     num_mines = 7
-    num = 0  # num mines
-    while num < num_mines:
-        row = random.randint(0, 4)
-        col = random.randint(0, 4)
-        if board[row][col] == 0:
-            board[row][col] = 1  # Add mine
-            num = num + 1
-    main()
+main()
