@@ -155,12 +155,17 @@ def game(board_visible, board):
     """
     score = 0
     movement = 0
+    coordinates_given = []
     while movement < (25 - num_mines):
+        print(f"coordinates given{coordinates_given}")
         row = input("Select a row(1-5):\n")
         if row in ("1", "2", "3", "4", "5"):
             row_value = int(row) - 1
             col = input("Select a col(1-5):\n")
-            if col in ("1", "2", "3", "4", "5"):
+            coordinates = row + "," + col
+            if coordinates in coordinates_given:
+                print(f"you have already given {coordinates}, try again.")
+            elif col in ("1", "2", "3", "4", "5"):
                 col_value = int(col) - 1
                 if board[row_value][col_value] == 1:
                     print("Ooops!!! You stepped on a mine.")
@@ -173,6 +178,7 @@ def game(board_visible, board):
                 display_board_visible(board_visible)
                 # It will add 100 Points for each correct movement
                 score = score + 100
+                coordinates_given.append(coordinates)
                 print(f"Score: {score} Points")
             else:
                 print(f"{col} is not valid!")
