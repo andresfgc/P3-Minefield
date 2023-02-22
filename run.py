@@ -51,16 +51,13 @@ def menu(user_name):
         print("Press 3 to quit game")
         number = input()
         if number == "1":
-            break
+            return 1
         if number == "2":
             display_ranking()
-            return 2
         if number == "3":
             print(f"Goodbye {user_name}!")
             return 3
-        clear_screen()
         print(f"{number} is not valid.")
-    return 1
 
 
 def display_board(board):
