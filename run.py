@@ -6,14 +6,14 @@ from google.oauth2.service_account import Credentials
 
 def clear_screen():
     """
-    Clear function to clean-up the terminal so things don't get messy.
+    It clears the terminal to improve the player experience.
     """
     os.system("cls" if os.name == "nt" else "clear")
 
 
 def get_name_data():
     """
-    Get name input from the player
+    It gets name input from the player
     """
     while True:
         data_str = input("Please enter your name here:\n")
@@ -25,10 +25,11 @@ def get_name_data():
 
 def display_ranking():
     """
-    Print current Ranking
+    It brings all value from the worksheet "ranking" and presents
+    them into columns with their respective names and scores"
     """
     clear_screen()
-    print("TOP RANKING")
+    print("RANKING")
     col_len = {
         i: max(map(len, inner)) for i, inner in enumerate(zip(*ranking_scores))
     }
@@ -42,7 +43,7 @@ def display_ranking():
 
 def menu(user_name):
     """
-    Menu to begin game, play game, check ranking, quit game
+    It asks player to choose to play game, check ranking or quit game.
     """
     while True:
         print(f"{user_name}, what would you like to do?")
@@ -62,9 +63,8 @@ def menu(user_name):
 
 def display_board(board):
     """
-    Essential for adding the mines correctly.
-    Also necessary to find the exact number of mines around a spot.
-    It will be displayed when player steps on a mine.
+    It marks each mine with an asterisk and creates the board
+    that will be presented to the player when he/she lands on a mine.
     """
     print("-"*21)
     for row in range(0, 5):
@@ -80,7 +80,7 @@ def display_board(board):
 
 def display_board_visible(board_visible):
     """
-    Will show the board to Player without revealing mines's locations
+    it shows the board to Player without revealing mines's location
     """
     clear_screen()
     print("""
@@ -104,7 +104,7 @@ For every correct movement you will get 100 points.
 
 def check_mines_around(row, col, board):
     """
-    Display the number of mines around the coordinates given
+    It calculates the number of mines around an specific coordinate
     """
     total_mines = 0  # total mines around location
     r = row - 1
@@ -121,8 +121,10 @@ def check_mines_around(row, col, board):
 
 def update_mines_around(row_value, col_value, board_visible, board):
     """
-    In case of zeros, it will check the next
-    spaces until it finds at least one mine
+    It updates the number of remaining hidden spaces depending on the number
+    and proyimity of mines to the given coordinates.
+    In case of zeros, it will check next spaces
+    around the given coordinate until it finds at least one mine.
     """
     total_opened = 0
     if board_visible[row_value][col_value] == - 1:  # not yet opened
@@ -147,8 +149,8 @@ def update_mines_around(row_value, col_value, board_visible, board):
 
 def game(board_visible, board):
     """
-    it receives the row and column numbers, calculate position
-    and total score.
+    it receives the row and column numbers, 
+    calculates position and total score.
     """
     score = 0
     movement = 0
@@ -191,7 +193,8 @@ def game(board_visible, board):
 
 def get_ranking_data(name, score):
     """
-    Collect name and sccore data
+    It brings the data inside the worksheet "ranking".
+    It brings all data from column "name" and "score".
     """
     ranking_data_str = name + "," + str(score)
     ranking_data = ranking_data_str.split(",")
@@ -200,14 +203,18 @@ def get_ranking_data(name, score):
 
 def update_ranking_worksheet(name, score):
     """
-    Update ranking worksheet with name and score
+    It adds the name and score achieved inside the
+    google worksheet "ranking"
     """
     ranking_worksheet.append_row(get_ranking_data(name, score))
 
 
 def main():
     """
-    Contains all functions
+    It Starts with 3 print statements, explaining the game content.
+    Before to start the game the function will ask for player name.
+    The next funtion will player choose 1 of 3 menu's options.
+    Program will keep running until player select menu's option "3".
     """
     clear_screen()
     print("Welcome to Minefield.\n")
@@ -235,6 +242,10 @@ def main():
 
 
 def create_board(hidden=False):
+    """
+    Creates the board where mines and
+    coordinates will be positioned.
+    """
     board = []
     for i in range(5):
         row = []
