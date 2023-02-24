@@ -1,16 +1,21 @@
 import random
 import os
+from itertools import islice
 import gspread
 from google.oauth2.service_account import Credentials
 from tabulate import tabulate
-from itertools import islice
 
 
 def clear_screen():
     """
     It clears the terminal to improve the player experience.
     """
-    os.system("cls" if os.name == "nt" else "clear")
+    # posix is os name for Linux or mac
+    if os.name == 'posix':
+        os.system('clear')
+    else:
+        # for windows
+        os.system('cls')
 
 
 def get_name_data():
