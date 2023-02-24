@@ -2,6 +2,8 @@ import random
 import os
 import gspread
 from google.oauth2.service_account import Credentials
+from tabulate import tabulate
+from itertools import islice
 
 
 def clear_screen():
@@ -25,20 +27,17 @@ def get_name_data():
 
 def display_ranking():
     """
-    It brings all value from the worksheet "ranking" and presents
-    them into columns with their respective names and scores"
+    It brings the top 10 player's scores in order from highest to lowest.
     """
     clear_screen()
-    print("RANKING")
-    col_len = {
-        i: max(map(len, inner)) for i, inner in enumerate(zip(*ranking_scores))
-    }
-
-    for inner in ranking_scores:
-        for col, word in enumerate(inner):
-            print(f"{word:{col_len[col]}}", end=" | ")
-        print()
-    print()
+    print("TOP 10 RANKING")
+    ranking = ranking_scores
+    int_ranking = list(map(lambda x: [x[0], int(x[1])], ranking))
+    top_ten = list(islice(
+        sorted(int_ranking, key=lambda x: x[1], reverse=True), 10
+    ))
+    print(tabulate(top_ten, headers=["Name", "Score"]))
+    print("-"*15)
 
 
 def menu(user_name):
@@ -54,7 +53,7 @@ def menu(user_name):
         if number == "1":
             return 1
         if number == "2":
-            display_ranking()
+            return 2
         if number == "3":
             print(f"Goodbye {user_name}!")
             return 3
@@ -196,8 +195,7 @@ def get_ranking_data(name, score):
     It brings the data inside the worksheet "ranking".
     It brings all data from column "name" and "score".
     """
-    ranking_data_str = name + "," + str(score)
-    ranking_data = ranking_data_str.split(",")
+    ranking_data = name, score
     return ranking_data
 
 
@@ -222,23 +220,27 @@ def main():
     print("There are seven mines, so be careful where you step on.\n")
     name = get_name_data()
     play = menu(name)
-    while play == 1:
-        # Board player can not see
-        board = create_board(True)
-        # Board player can see
-        board_visible = create_board()
-        # Add mines
-        num = 0  # num mines
-        while num < num_mines:
-            row = random.randint(0, 4)
-            col = random.randint(0, 4)
-            if board[row][col] == 0:
-                board[row][col] = 1  # Add mine
-                num = num + 1
-        display_board_visible(board_visible)
-        score = game(board_visible, board)
-        update_ranking_worksheet(name, score)
-        play = menu(name)
+    while play in (1, 2):
+        if play == 1:
+            # Board player can not see
+            board = create_board(True)
+            # Board player can see
+            board_visible = create_board()
+            # Add mines
+            num = 0  # num mines
+            while num < num_mines:
+                row = random.randint(0, 4)
+                col = random.randint(0, 4)
+                if board[row][col] == 0:
+                    board[row][col] = 1  # Add mine
+                    num = num + 1
+            display_board_visible(board_visible)
+            score = game(board_visible, board)
+            update_ranking_worksheet(name, score)
+            play = menu(name)
+        if play == 2:
+            display_ranking()
+            play = menu(name)
 
 
 def create_board(hidden=False):
