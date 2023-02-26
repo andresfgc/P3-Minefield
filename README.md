@@ -1,31 +1,42 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+<h1 align="center">Minefield - Portfolio Project 3</h1>
 
-Welcome Andresfgc,
+![Minefield](media/minefield.JPG)
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+Minefield is a python terminal game of [minesweeper](https://en.wikipedia.org/wiki/Minesweeper_(video_game)) and it is deployed on Heroku.
 
-## Reminders
+The game presents an introduction to the game's theme. The player is then prompted to enter his or her name.
 
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
+Once the user has given his name, he will have a menu with 3 options at his disposal. Option 1 allows the user to start the game, option 2 allows the user to view the ranking and option 3 allows the user to end the interaction with the program.
 
-## Creating the Heroku app
+If the user starts the game, he will be explained how to give the coordinates and will be presented with the minefield, the user can take values from 1 to 5 to give his coordinates. 
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+Every time the game ends, either because the player stepped on a mine or won, the score obtained will be saved and the menu will be presented for the user to decide if he wants to continue playing, check the ranking or end the interaction with the program.
 
-1. `heroku/python`
-2. `heroku/nodejs`
+Once the user has finished the interaction with the program, it will update the ranking for the next interaction.
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+The deployed application can be found at [minefield](https://minefield.herokuapp.com/)
+## UX & Design
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+### User Stories
 
-Connect your GitHub repository and deploy as normal.
+* As a user, I want to be able to type my name and know if the information is valid.
+* As a user, I want to be able to read the rules of the game.
+* As a user, I want to be able to know how many mines are in the minefield.
+* As a user, I want to be able to see the current ranking.
+* As a user, I want to be able to see the given coordinate represented in the minefield.
+* As a user, I want to be able to see the number of mines around the given position.
+* As a user, I want to be able to see what coordinates I have entered during the game.
+* As a user, I want to be able to see my score during and at the end of the game.
+* As a user, I want to be able to know if the coordinates I am entering are valid.
+* As a user, I want to be able to replay the game as many times as I want.
 
-## Constraints
+### Flowchart
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+#### Main Flowchart
+![main flowchart](media/flow_chart_main.JPG)
 
------
-Happy coding!
+#### Play game
+![play game option](media/flowchart_glay_game.JPG)
+
+#### Check ranking & quit game
+![Check ranking option](media/display_ranking_%26_quit_game.JPG)
