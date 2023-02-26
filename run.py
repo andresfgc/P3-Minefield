@@ -1,7 +1,7 @@
-from tabulate import tabulate
 import random
 import os
 from itertools import islice
+from tabulate import tabulate
 import gspread
 from google.oauth2.service_account import Credentials
 
