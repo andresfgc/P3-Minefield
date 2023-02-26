@@ -1,9 +1,9 @@
+from tabulate import tabulate
 import random
 import os
 from itertools import islice
 import gspread
 from google.oauth2.service_account import Credentials
-from tabulate import tabulate
 
 
 def clear_screen():
