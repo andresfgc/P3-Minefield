@@ -2,7 +2,6 @@ import random
 import os
 from itertools import islice
 import gspread
-from tabulate import tabulate
 from google.oauth2.service_account import Credentials
 
 
@@ -41,9 +40,16 @@ def display_ranking():
     top_ten = list(islice(
         sorted(int_ranking, key=lambda x: x[1], reverse=True), 10
     ))
-    print(tabulate(top_ten, headers=["Name", "Score"]))
-    print("-"*15)
-    
+    str_top_ten = list(map(lambda x: [x[0], str(x[1])], top_ten))
+    print("| Player Name | Score |")
+    print("-"*23)
+    for value in str_top_ten:
+        print(
+            "|", value[0], " "*(10-len(value[0])), "|",
+            value[1], " "*(4-len(value[1])), "|"
+        )
+    print("-"*23)
+
 
 def menu(user_name):
     """
@@ -153,7 +159,7 @@ def update_mines_around(row_value, col_value, board_visible, board):
 
 def game(board_visible, board):
     """
-    it receives the row and column numbers, 
+    it receives the row and column numbers,
     calculates position and total score.
     """
     score = 0
