@@ -1,7 +1,7 @@
 import random
 import os
 from itertools import islice
-from tabulate import tabulate
+# from tabulate import tabulate
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -30,9 +30,10 @@ def get_name_data():
             print(f"{data_str} is not a name.")
 
 
-def display_ranking():
+# def display_ranking():
     """
     It brings the top 10 player's scores in order from highest to lowest.
+    """
     """
     clear_screen()
     print("TOP 10 RANKING")
@@ -43,7 +44,7 @@ def display_ranking():
     ))
     print(tabulate(top_ten, headers=["Name", "Score"]))
     print("-"*15)
-
+    """
 
 def menu(user_name):
     """
