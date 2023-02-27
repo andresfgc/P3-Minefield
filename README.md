@@ -118,11 +118,67 @@ Solved Bugs
 Remaining Bugs
 * the ranking does not update names and scores during the same interaction. In case the user makes it into the top 10, he/she must first end the interaction and then start a new one.
 
-Validator Testing
+### Validator Testing
 * PEP8
   * No errors were returned from CI Python Linter
   
 ![PEP8 linter](media/pep8_linter.JPG)
+
+### User Stories Testing
+| User Goal | Requirement met | Image(s) |
+| --------- | --------------- | -------- |
+| As a user, I want to be able to type my name and know if the information is valid. | Yes | ![User test 1a](media/menu.JPG) ![User test 1b]() ![User test 1c]() |
+| As a user, I want to be able to read the rules of the game. | Yes | ![User test 2a]() ![User test 2b]() |
+| As a user, I want to be able to know how many mines are in the minefield. | Yes | ![User test 3a]() ![User test 3b]() |
+| As a user, I want to be able to see the current ranking. | Yes | ![User test 4a]() |
+| As a user, I want to be able to see the given coordinate represented in the minefield. | Yes | ![User test 5a]() |
+| As a user, I want to be able to see the number of mines around the given position. | Yes | ![User test 6a]() |
+| As a user, I want to be able to see what coordinates I have entered during the game. | Yes | ![User test 7a]() ![User test 7b]() |
+| As a user, I want to be able to see my score during and at the end of the game. | Yes | ![User test 8a]() ![User test 8b]() |
+| As a user, I want to be able to know if the coordinates I am entering are valid. | Yes | ![User test 9a]() ![User test 9b]() |
+| As a user, I want to be able to replay the game as many times as I want. | Yes | ![User test 10a]() ![User test 10b]() |
+
+### Program Validation Testing
+| Section Tested | Input To Validate | Expected Outcome | Actual Outcome | Pass/Fail |
+| -------------- | ----------------- | ---------------- | -------------- | --------- |
+| Start Program | N/A | Load welcome message and prompt user to enter name | As expected | PASS |
+| Enter Name | Input "Cami" | Display Menu Option | As expected | PASS |
+| Enter Name | Input "1" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Enter Name | Input "A1" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Enter Name | Input "Cami garcia" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Enter Name | Press enter with no input | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Menu Option | Input "1" | Start game | As expected | PASS |
+| Menu Option | Input "2" | Display ranking and menu at the bottom | As expected | PASS |
+| Menu Option | Input "3" | Say goodbye to user and exit program | As expected | PASS |
+| Menu Option | Input "A" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Menu Option | Input "A1" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Menu Option | Input "0.1" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Menu Option | Input "ajc123" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Menu Option | Input "cami garcia" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Menu Option | Input "0" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Menu Option | Input "4" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Menu Option | Press enter with no input | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Game row or column | Input "1" | Save value to calculate coordinate | As expected | PASS |
+| Game row or column | Input "2" | Save value to calculate coordinate | As expected | PASS |
+| Game row or column | Input "3" | Save value to calculate coordinate | As expected | PASS |
+| Game row or column | Input "4" | Save value to calculate coordinate | As expected | PASS |
+| Game row or column | Input "5" | Save value to calculate coordinate | As expected | PASS |
+| Game row or column | Input "0" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Game row or column | Input "6" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Game row or column | Input "A" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Game row or column | Input "A1" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Game row or column | Input "cami garcia" | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Game row or column | Press enter with no input | Notify user that this isn't a valid input and loop back | As expected | PASS |
+| Game row or column | input was same as previous coordinates | Notify user that has already given that coordinate and loop back | As expected | PASS |
+
+### Cross-browser Testing
+After deploying the program through Heroku, I have tested it on Chrome, Firefox and Edge. The program has loaded perfectly and had no issues running as expected across all browsers.
+
+| Browser | Image |
+| ------- | ----- |
+| Chrome | ![Chrome test](https://github.com/adamgilroy22/python-hangman/blob/main/documentation/testing/chrome.png) |
+| Firefox | ![Firefox test](https://github.com/adamgilroy22/python-hangman/blob/main/documentation/testing/firefox.png) |
+| Edge | ![Edge test](https://github.com/adamgilroy22/python-hangman/blob/main/documentation/testing/edge.png) |
 
 ## Deployment
 This project was deployed using Code Institute's mock terminal for Heroku.
