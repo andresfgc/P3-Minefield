@@ -172,13 +172,13 @@ Remaining Bugs
 | Game row or column | input was same as previous coordinates | Notify user that has already given that coordinate and loop back | As expected | PASS |
 
 ### Cross-browser Testing
-After deploying the program through Heroku, I have tested it on Chrome, Firefox and Edge. The program has loaded perfectly and had no issues running as expected across all browsers.
+I have tested it on Chrome, Firefox and Edge. The program has loaded correctly and had no issues running as expected across all browsers.
 
 | Browser | Image |
 | ------- | ----- |
-| Chrome | ![Chrome test](https://github.com/adamgilroy22/python-hangman/blob/main/documentation/testing/chrome.png) |
-| Firefox | ![Firefox test](https://github.com/adamgilroy22/python-hangman/blob/main/documentation/testing/firefox.png) |
-| Edge | ![Edge test](https://github.com/adamgilroy22/python-hangman/blob/main/documentation/testing/edge.png) |
+| Chrome | ![Browser Chrome](media/chrome.JPG) |
+| Firefox | ![Browser Firefox](media/firefox.JPG) |
+| Edge | ![Browser Edge](media/Edge.JPG) |
 
 ## Deployment
 This project was deployed using Code Institute's mock terminal for Heroku.
