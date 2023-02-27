@@ -40,3 +40,68 @@ The deployed application can be found at [minefield](https://minefield.herokuapp
 
 #### Check ranking & quit game
 ![Check ranking option](media/display_ranking_%26_quit_game.JPG)
+
+### Features
+
+* Welcome screen
+  * The user is welcomed with an introduction to the game's theme, telling him/her the number of hidden mines.
+  * The user will be asked to enter his/her name.
+
+![welcome screen](media/welcome_name.JPG)
+
+* Menu
+  * The user will be presented with three options. Number 1 will send the user to start the game, number 2 will present the ranking and number 3 will finish the interaction with the application.
+  * The user has the option to end the interaction after giving his/her name, every game played, or checking the ranking.
+
+![Menu](media/menu.JPG)
+
+* Game
+  * The user is presented with the two simple rules of the game in order to give valid coordinates and to know how much he/she will win for each correct coordinate.
+  * The user will be able to see the coordinate data represented on the board.
+  * The user can see at the bottom of the board the coordinates previously given and current score.
+  * If the user steps on a mine, user will be informed of it, his/her score will be presented, the location of the mines will be shown and the menu function will appear (2. image "Game lose").
+  * If the user wins the game, user will be informed about it, his/her score will be displayed and the menu function will appear (3. image "Game win").
+
+![Game](media/game.JPG)
+
+![Game lose](media/game_lose.JPG)
+
+![Game win](media/game_win.JPG)
+
+* Ranking
+  * The user will be able to see the top 10 scores of other players and below the ranking, the menu function will appear.
+
+![Ranking](media/ranking.JPG)
+
+#### Features left to implement
+* Revealed position controller:
+  * I plan to add a function that checks the coordinates given by the user with the coordinates previously revealed by the function "check_mines_around". this way users will not be able to add points by giving coordinates that have already been previously revealed to them.
+
+* Real-time score updater:
+  * I plan to add a function that updates the score as soon as it is saved in the worksheet "ranking".This way users will be able to know if they have achieved a place in the ranking without having to finish the interaction and start it again.
+
+#### Technologies Used
+
+  * Python
+    * All program was written in python.
+  * Smartdraw
+    * It was used to create the the flowchart.
+  * Google Sheets
+    * It is used to store the raking.
+  * Google Cloud
+    * It was used to enable the APIs needed.
+  * Github
+    * It was used to store the project.
+  * Gitpod
+    * It was used to create, add, commit and push my code to Github.
+  * Heroku
+    * It was used to deploy the project.
+
+#### Imported libraries
+
+  * Random was used to create and place mines inside the board.
+  * os was used clear the screen and improve user experience.
+  * islice was used to bring only the top ten score for the ranking.
+  * gspread was used to connect the program with Google Sheets to bring and update the ranking.
+
+
