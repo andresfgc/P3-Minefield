@@ -230,6 +230,7 @@ def main():
     print("Explore all spaces without exploding any mine inside this field.")
     print("There are seven mines, so be careful where you step on.\n")
     name = get_name_data()
+    clear_screen()
     play = menu(name)
     while play in (1, 2):
         if play == 1:
