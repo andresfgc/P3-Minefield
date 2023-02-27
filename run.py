@@ -7,8 +7,9 @@ from google.oauth2.service_account import Credentials
 
 def clear_screen():
     """
-    It clears the terminal to improve the player experience.
+    It clears the terminal to improve the user experience.
     """
+    # taken from Rahul Janghu
     # posix is os name for Linux or mac
     if os.name == 'posix':
         os.system('clear')
@@ -19,7 +20,7 @@ def clear_screen():
 
 def get_name_data():
     """
-    It gets name input from the player
+    It gets name input from the user
     """
     while True:
         data_str = input("Please enter your name here:\n")
@@ -31,7 +32,7 @@ def get_name_data():
 
 def display_ranking():
     """
-    It brings the top 10 player's scores in order from highest to lowest.
+    It brings the top 10 user's scores in order from highest to lowest.
     """
     clear_screen()
     print("TOP 10 RANKING")
@@ -53,7 +54,7 @@ def display_ranking():
 
 def menu(user_name):
     """
-    It asks player to choose to play game, check ranking or quit game.
+    It asks user to choose to play game, check ranking or quit game.
     """
     while True:
         print(f"{user_name}, what would you like to do?")
@@ -76,6 +77,7 @@ def display_board(board):
     It marks each mine with an asterisk and creates the board
     that will be presented to the player when he/she lands on a mine.
     """
+    # taken from Painless Programming
     print("-"*21)
     for row in range(0, 5):
         print("| ", end="")
@@ -90,7 +92,7 @@ def display_board(board):
 
 def display_board_visible(board_visible):
     """
-    it shows the board to Player without revealing mines's location
+    it shows the board to user without revealing mines's location
     """
     clear_screen()
     print("""
@@ -100,6 +102,7 @@ RULES:
 
 For every correct movement you will get 100 points.
 """)
+# taken from Painless Programming
     print("-"*21)
     for row in range(0, 5):
         print("| ", end="")
@@ -116,9 +119,10 @@ def check_mines_around(row, col, board):
     """
     It calculates the number of mines around an specific coordinate
     """
-    total_mines = 0  # total mines around location
+    # taken from Painless Programming
+    total_mines = 0
     r = row - 1
-    while r <= row+1:
+    while r <= row + 1:
         if r >= 0 and r < 5:
             c = col - 1
             while c <= col + 1:
@@ -136,12 +140,12 @@ def update_mines_around(row_value, col_value, board_visible, board):
     In case of zeros, it will check next spaces
     around the given coordinate until it finds at least one mine.
     """
+    # taken from Painless Programming
     total_opened = 0
-    if board_visible[row_value][col_value] == - 1:  # not yet opened
+    if board_visible[row_value][col_value] == - 1:
         num_mines = check_mines_around(row_value, col_value, board)
         board_visible[row_value][col_value] = num_mines
         total_opened = total_opened + 1
-        # if was 0, it´s safe to reveal
         if num_mines == 0:
             r = row_value - 1
             while r <= row_value + 1:
@@ -238,13 +242,13 @@ def main():
             board = create_board(True)
             # Board player can see
             board_visible = create_board()
-            # Add mines
-            num = 0  # num mines
+            # Add mines, taken from Painless Programming
+            num = 0
             while num < num_mines:
                 row = random.randint(0, 4)
                 col = random.randint(0, 4)
                 if board[row][col] == 0:
-                    board[row][col] = 1  # Add mine
+                    board[row][col] = 1
                     num = num + 1
             display_board_visible(board_visible)
             score = game(board_visible, board)

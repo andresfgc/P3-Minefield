@@ -84,8 +84,6 @@ The deployed application can be found at [minefield](https://minefield.herokuapp
 
   * Python
     * All program was written in python.
-  * Smartdraw
-    * It was used to create the the flowchart.
   * Google Sheets
     * It is used to store the raking.
   * Google Cloud
@@ -142,4 +140,8 @@ The deployed application can be found at [minefield](https://minefield.herokuapp
 ## Credits
 
 ### Code
-* Code to
+* Code to add mines and display board taken from [Painless Programming](https://www.youtube.com/watch?v=bGr-j89FaRM) and [here](https://www.youtube.com/watch?v=Wjzgm6p0TJY&t=1s)
+* Code to clear_screen function taken from [Rahul Janghu](https://www.scaler.com/topics/how-to-clear-screen-in-python/)
+
+### Design
+* Flowchart was made using [Smartdraw](https://www.smartdraw.com/)
