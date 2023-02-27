@@ -41,7 +41,7 @@ The deployed application can be found at [minefield](https://minefield.herokuapp
 #### Check ranking & quit game
 ![Check ranking option](media/display_ranking_%26_quit_game.JPG)
 
-### Features
+## Features
 
 * Welcome screen
   * The user is welcomed with an introduction to the game's theme, telling him/her the number of hidden mines.
@@ -73,14 +73,14 @@ The deployed application can be found at [minefield](https://minefield.herokuapp
 
 ![Ranking](media/ranking.JPG)
 
-#### Features left to implement
+### Features left to implement
 * Revealed position controller:
   * I plan to add a function that checks the coordinates given by the user with the coordinates previously revealed by the function "check_mines_around". this way users will not be able to add points by giving coordinates that have already been previously revealed to them.
 
 * Real-time score updater:
   * I plan to add a function that updates the score as soon as it is saved in the worksheet "ranking".This way users will be able to know if they have achieved a place in the ranking without having to finish the interaction and start it again.
 
-#### Technologies Used
+### Technologies Used
 
   * Python
     * All program was written in python.
@@ -97,11 +97,49 @@ The deployed application can be found at [minefield](https://minefield.herokuapp
   * Heroku
     * It was used to deploy the project.
 
-#### Imported libraries
+### Imported libraries
 
   * Random was used to create and place mines inside the board.
   * os was used clear the screen and improve user experience.
   * islice was used to bring only the top ten score for the ranking.
   * gspread was used to connect the program with Google Sheets to bring and update the ranking.
 
+## Testing
 
+I have manually tested this project by doing the following:
+* Passed the code through a PEP8 linter and confirmed there are no problems.
+* Tested in my local terminal and the Code Institute Heroku terminal.
+
+### Bugs
+
+Solved Bugs
+* My "get_name_data" function was accepting all kind of values, I fixed it by adding "isalpha()" inside the if statement.
+* My "display_ranking" function was not letting me show the score Value next to the name because it was an integrer and my function was looking for strings to make the ranking tab. I fixed it by converting the top_ten variable again to str before the for loop.
+* my "game" function was allowing to write the same coordinate indefinitely to increase the score. I fixed it by adding a list that collects the given coordinates. With the help of this list I was able to use an if statement to check if both the row and the column had already been called before and if yes then re-ask for new coordinates without adding score.
+
+Remaining Bugs
+* the ranking does not update names and scores during the same interaction. In case the user makes it into the top 10, he/she must first end the interaction and then start a new one.
+
+Validator Testing
+* PEP8
+  * No errors were returned from CI Python Linter
+  
+![PEP8 linter](media/pep8_linter.JPG)
+
+## Deployment
+This project was deployed using Code Institute's mock terminal for Heroku.
+
+The deployed application can be found at [minefield](https://minefield.herokuapp.com/)
+
+* Steps for deployment:
+  * Clone template repository
+  * Create a new Heroku app
+  * Add in Config Vars `CREDS` with value and `PORT` with `8000` 
+  * Set buildbacks to `Python` and `NodeJS` in that order
+  * Link the Heroku app to the repository in Github
+  * Click on Deploy
+
+## Credits
+
+### Code
+* Code to
