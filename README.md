@@ -30,6 +30,7 @@ The deployed application can be found at [minefield](https://minefield.herokuapp
 * As a user, I want to be able to know if the coordinates I am entering are valid.
 * As a user, I want to be able to see mines when I lose.
 * As a user, I want to be able to replay the game as many times as I want.
+* As a user, I want to be able to exit the game.
 
 ### Flowchart
 
@@ -139,6 +140,8 @@ Remaining Bugs
 | As a user, I want to be able to know if the coordinates I am entering are valid. | Yes | ![User test 9a](media/coordinate_9b.JPG) |
 | As a user, I want to be able to see mines when I lose. | Yes | ![User test 10a](media/game_lose.JPG) |
 | As a user, I want to be able to replay the game as many times as I want. | Yes | ![User test 11a](media/game_lose.JPG) ![User test 11b](media/game_win.JPG) |
+| As a user, I want to be able to exit the game. | Yes | ![User test 12a](media/quit_game_12a.JPG) |
+
 
 ### Program Validation Testing
 | Section Tested | Input To Validate | Expected Outcome | Actual Outcome | Pass/Fail |
