@@ -28,6 +28,7 @@ The deployed application can be found at [minefield](https://minefield.herokuapp
 * As a user, I want to be able to see what coordinates I have entered during the game.
 * As a user, I want to be able to see my score during and at the end of the game.
 * As a user, I want to be able to know if the coordinates I am entering are valid.
+* As a user, I want to be able to see mines when I lose.
 * As a user, I want to be able to replay the game as many times as I want.
 
 ### Flowchart
@@ -127,16 +128,17 @@ Remaining Bugs
 ### User Stories Testing
 | User Goal | Requirement met | Image(s) |
 | --------- | --------------- | -------- |
-| As a user, I want to be able to type my name and know if the information is valid. | Yes | ![User test 1a](media/menu.JPG) ![User test 1b]() ![User test 1c]() |
-| As a user, I want to be able to read the rules of the game. | Yes | ![User test 2a]() ![User test 2b]() |
-| As a user, I want to be able to know how many mines are in the minefield. | Yes | ![User test 3a]() ![User test 3b]() |
-| As a user, I want to be able to see the current ranking. | Yes | ![User test 4a]() |
-| As a user, I want to be able to see the given coordinate represented in the minefield. | Yes | ![User test 5a]() |
-| As a user, I want to be able to see the number of mines around the given position. | Yes | ![User test 6a]() |
-| As a user, I want to be able to see what coordinates I have entered during the game. | Yes | ![User test 7a]() ![User test 7b]() |
-| As a user, I want to be able to see my score during and at the end of the game. | Yes | ![User test 8a]() ![User test 8b]() |
-| As a user, I want to be able to know if the coordinates I am entering are valid. | Yes | ![User test 9a]() ![User test 9b]() |
-| As a user, I want to be able to replay the game as many times as I want. | Yes | ![User test 10a]() ![User test 10b]() |
+| As a user, I want to be able to type my name and know if the information is valid. | Yes | ![User test 1a](media/welcome_name.JPG) ![User test 1b](media/menu.JPG) ![User test 1c](media/name_error_1c.JPG) ![User test 1d](media/name_error_1d.JPG) |
+| As a user, I want to be able to read the rules of the game. | Yes | ![User test 2a](media/rules_2a.JPG) |
+| As a user, I want to be able to know how many mines are in the minefield. | Yes | ![User test 3a](media/rules_3a.JPG) |
+| As a user, I want to be able to see the current ranking. | Yes | ![User test 4a](media/ranking.JPG) |
+| As a user, I want to be able to see the given coordinate represented in the minefield. | Yes | ![User test 5a](media/game.JPG) |
+| As a user, I want to be able to see the number of mines around the given position. | Yes | ![User test 6a](media/game.JPG) |
+| As a user, I want to be able to see what coordinates I have entered during the game. | Yes | ![User test 7a](media/game.JPG) |
+| As a user, I want to be able to see my score during and at the end of the game. | Yes | ![User test 8a](media/game.JPG) ![User test 8b](media/game_lose.JPG) ![User test 8c](media/game_win.JPG)  |
+| As a user, I want to be able to know if the coordinates I am entering are valid. | Yes | ![User test 9a](media/coordinate_9b.JPG) |
+| As a user, I want to be able to see mines when I lose. | Yes | ![User test 10a](media/game_lose.JPG) |
+| As a user, I want to be able to replay the game as many times as I want. | Yes | ![User test 11a](media/game_lose.JPG) ![User test 11b](media/game_win.JPG) |
 
 ### Program Validation Testing
 | Section Tested | Input To Validate | Expected Outcome | Actual Outcome | Pass/Fail |
